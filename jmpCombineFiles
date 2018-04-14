@@ -1,0 +1,57 @@
+// JMP Script for Output Reports
+// Heath A. Wilkinson
+// 25Sep2013 
+
+Main Menu("Minimize All");
+
+// Open the Trav outs file
+dt1 = Open( "C:\BSG\GPA2\fzSolverOutputTravOuts2.txt", invisible );
+dt4 = Open( "C:\BSG\GPA2\fzSolverOutputConstraints.txt" );
+dt7 = Open( "C:\BSG\GPA2\fzSolverOutputlMapping.txt", ) ; //invisible );
+dt10 = Open( "C:\BSG\GPA2\fzSolverOutputCapParamAssumptions.txt", invisible );
+dt13 = Open( "C:\BSG\GPA2\fzSolverOutputQualAssumptions.txt", invisible );
+
+// Get Trav Outs
+dt2 = dt1 << Summary( Group( :out_ww_num ), Sum( :trav_output ), Subgroup( :node ) );
+dt2 << save( "C:\BSG\GPA2\sumTravOuts.xls" );
+Close( dt2, No Save );
+
+// Get Trav Goals
+dt3 = dt1 << Summary( Group( :out_ww_num ), Sum( :trav_goal ), Subgroup( :node ) );
+dt3 << save( "C:\BSG\GPA2\sumTravGoals.xls" );
+Close( dt3, No Save );
+
+dt2 = dt4 << Summary( Group( :ww_num ), Max( :xs_ws ), Subgroup( :WS_name ) );
+dt2 << save( "C:\BSG\GPA2\xsTools.xls" );
+Close( dt2, No Save );
+
+// Open the level mapping file
+
+dt7 << select where( Contains( :WS_group, "365" ) );
+dt2 = dt7 << subset( Output Table Name( "365LevelMapping" ) );
+dt3 = dt2 << Summary( Group( :node, :step_name ), Sum( :wsl ), Subgroup( :ww_num, :type ) );
+dt3 << save( "C:\BSG\GPA2\xxxlevelmapping.xls" );
+Close( dt3, No Save );
+Close( dt2, No Save );
+
+dt7 << select where( Contains( :WS_group, "248" ) );
+dt2 = dt7 << subset( Output Table Name( "248LevelMapping" ) );
+dt3 = dt2 << Summary( Group( :node, :step_name ), Sum( :wsl ), Subgroup( :ww_num, :type ) );
+dt3 << save( "C:\BSG\GPA2\xxxlevelmapping.xls" );
+Close( dt3, No Save );
+Close( dt2, No Save );
+
+dt7 << select where( :WS_group == "PHOTO_ALIGN_193NM" );
+dt2 = dt7 << subset( Output Table Name( "193DLevelMapping" ) );
+dt3 = dt2 << Summary( Group( :node, :step_name ), Sum( :wsl ), Subgroup( :ww_num, :type ) );
+dt3 << save( "C:\BSG\GPA2\xxxxlevelmapping.xls" );
+Close( dt3, No Save );
+Close( dt2, No Save );
+
+dt7 << select where( Contains( :WS_group, "19XX" ) );
+dt2 = dt7 << subset( Output Table Name( "1900LevelMapping" ) );
+dt3 = dt2 << Summary( Group( :node, :step_name ), Sum( :wsl ), Subgroup( :ww_num, :type ) );
+dt3 << save( "C:\BSG\GPA2\xxxxlevelmapping.xls" );
+
+Close( dt3, No Save );
+Close( dt2, No Save );
