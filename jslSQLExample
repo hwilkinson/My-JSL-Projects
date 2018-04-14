@@ -1,0 +1,26 @@
+// RPT script for Audits
+// Vincent A. Wilkinson
+// Created:   02Apr2012
+//
+
+ 
+dt1 = Open Database("DSN=RPTAudit;Description=SQL Server.;UID=User;PWD=xxxxxxx;APP=JMP;WSID=DTOWNER;DATABASE=Metrics", "SELECT * FROM dbo.photo_mor_metrics WHERE (((dbo.photo_mor_metrics.run_end_date)>GETDATE()-56))");
+
+dt1 << NewColumn("model", formula(
+
+If (
+
+  );
+
+);
+
+column("model") << Data Type(character);
+dt2 = dt1 << Summary(
+Group( :name, :model, :part, :layer ),
+Sum( :wcount )
+
+);
+
+dt2 << save("C:\Audit_Package\working\rawdata.xls"); close(dt2, No Save);
+close(dt1, No Save);
+quit(No Save);
